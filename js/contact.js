@@ -1,0 +1,10 @@
+const f=$('#cf'),st=$('#st'),say=(m,ok)=>{st.textContent=m;st.style.color=ok?'#176b2c':'#b00020'};
+f.onsubmit=async e=>{e.preventDefault();const d=new FormData(f);if(d.get('website'))return;
+if(![...'nesm'].every(k=>String(d.get(k=='n'?'n':k=='e'?'e':k=='s'?'s':'m')||'').trim()))return say('Please fill in every field.');
+if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.get('e')))return say('Enter a valid email address.');
+if(!CONFIG.contactEndpoint)return say('This form is not connected to an email service yet, so your message was NOT sent.'+(CONFIG.supportEmail?' Please email '+CONFIG.supportEmail+'.':''));
+const b=$('#sb');b.disabled=true;b.textContent='Sending…';try{const r=await fetch(CONFIG.contactEndpoint,{method:'POST',headers:{Accept:'application/json'},body:d});if(!r.ok)throw 0;f.reset();say('Message sent. Thank you!',1)}catch(x){say('Sorry, the message could not be sent. Please try again later.')}b.disabled=false;b.textContent='Send message'};
+(function(){const a=CONFIG.storeAddress,q=encodeURIComponent(a),m=document.getElementById('smap');if(!m)return;
+document.getElementById('saddr').textContent=(CONFIG.storeName?CONFIG.storeName+': ':'')+a;
+document.getElementById('slink').href='https://www.google.com/maps/search/?api=1&query='+q;
+const f=document.createElement('iframe');f.src='https://maps.google.com/maps?q='+q+'&z=15&output=embed';f.title='Map showing '+(CONFIG.storeName||'our store');f.loading='lazy';f.referrerPolicy='no-referrer-when-downgrade';m.innerHTML='';m.appendChild(f)})();

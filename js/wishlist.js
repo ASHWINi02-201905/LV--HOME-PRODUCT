@@ -1,0 +1,1 @@
+document.body.dataset.wl=1;const w=store.get('lvwish'),l=PRODUCTS.filter(p=>w.includes(p.id));$('#wg').innerHTML=l.length?l.map(card).join(''):'<p>Nothing saved yet. <a href="shop.html"><u>Browse the shop</u></a></p>';
